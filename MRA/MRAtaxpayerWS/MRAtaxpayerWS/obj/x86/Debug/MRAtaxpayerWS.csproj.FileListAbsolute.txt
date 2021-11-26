@@ -1,0 +1,12 @@
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.Form1.resources
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.Properties.Resources.resources
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.csproj.GenerateResource.Cache
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\MRAtaxpayerWS.exe
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\MRAtaxpayerWS.pdb
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.exe
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.pdb
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\obj\x86\Debug\MRAtaxpayerWS.csprojResolveAssemblyReference.cache
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\MRAtaxpayerWS.exe.config
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\Newtonsoft.Json.dll
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\Newtonsoft.Json.pdb
+C:\MRA\MRAtaxpayerWS\MRAtaxpayerWS\bin\Debug\Newtonsoft.Json.xml

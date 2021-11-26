@@ -1,0 +1,6 @@
+1. Deliver workin App
+2. readme.txt document detailing deployment issues
+3. MS WORD doc on steps to develop a similar app
+4. Power point document showing design screenshots and menus
+5. upload all documents to git repository
+6. email MRA Officers.
