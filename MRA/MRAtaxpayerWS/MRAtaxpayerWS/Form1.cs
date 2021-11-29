@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections.Specialized;
-
+using Newtonsoft.Json.Linq;
 //add reference system.runtime.serialization|System.ServiceModel.Web.dll
 
 
@@ -41,24 +41,6 @@ namespace MRAtaxpayerWS
         }
 
         // start: public variables ...
-        // assigned web service url ...
-        public string pub_wsurl = "";
-
-        // assign base web service url in case we need it ...
-        public string pub_wsbaseurl = "https://www.mra.mw/sandbox/";
-
-        // web service method to use
-        public string pub_wsmethod = "";
-
-        // web service task 
-        public string pub_wstask = "";
-
-        // web server user name and password
-        public string MRAUsername = "";
-        public string MRAPassword = "";
-
-        // request string
-        public string pub_wsRequeStstring = "";
 
         // set business registration date ... because we need to change its format for the web request
         // public Date  pub_BusinessRegistrationDate; 
@@ -67,96 +49,30 @@ namespace MRAtaxpayerWS
         public string pub_day = "";
         public string pub_date = "";
 
-        // login variable
+        // data table used in get all 
+        public DataTable dt; 
+        
+        // login variables
         public Boolean pub_isloggedin = false;
  
+        public string pub_login_authenticated = "";
+        public string pub_login_remark = "";
+        public string pub_login_apikey = "";
+        public string pub_login_username = "";
+        public string pub_login_firstname = "";
+        public string pub_login_lastname = "";
+                     
+        public int pub_logout_ok = 0;
+        public string pub_logout_remark = "";
 
-
+        // json_responsestring
+        public string json_responsestring = ""; 
 
         // end: public variables ...
 
-
-        // ;;;
-
-        // test
-        //Cookie-Aware WebClient
-        public class CookieAwareWebClient : WebClient
-        {
-            //An aptly named container to store the Cookie
-            public CookieContainer CookieContainer { get; private set; }
-
-            public CookieAwareWebClient()
-            {
-                CookieContainer = new CookieContainer();
-            }
-
-            protected override WebRequest GetWebRequest(Uri address)
-            {
-                //Grabs the base request being made 
-                var request = (HttpWebRequest)base.GetWebRequest(address);
-                //Adds the existing cookie container to the Request
-                request.CookieContainer = CookieContainer;
-
-                return request;
-            }
-
-
-
-        }
-
-
-        // create tax payer classes used to deserialize the json strings into objects 
-        // so that we can use and render them properly on the form
-
-
- 
-
-
-
-
-
-        // the process button to process the web service requests
-
-
-        private void taxpeopleDataGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            //this.taxpeopleDataGridView
-            //txtService.Text = dgvService.CurrentCell.Value.ToString();
-            //label2.Text = dgvService.CurrentCell.Value.ToString();
-
-            MessageBox.Show("Changed!");
-
-        }
-
-        // login
-        // OK: login classes. Deserialse json data to these objects or just search the json string...
-        public class Token
-        {
-            public string Name { get; set; }
-            public string Value { get; set; }
-        }
-
-        public class UserDetails
-        {
-            public string Username { get; set; }
-            public string Password { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string email { get; set; }
-        }
-
-        public class Root
-        {
-            public int ResultCode { get; set; }
-            public string Remark { get; set; }
-            public Token Token { get; set; }
-            public bool Authenticated { get; set; }
-            public UserDetails UserDetails { get; set; }
-        }
-        
+        // login..ok
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-
             string Credentials_data = "Email=" + this.textBoxMRAUsername.Text + "&" + "Password=" + this.textBoxMRAPassword.Text;
             using (WebClient client = new WebClient())
             {
@@ -165,38 +81,67 @@ namespace MRAtaxpayerWS
 
                 // call API with url and user credentials
                 string result = client.UploadString("https://www.mra.mw/sandbox/programming/challenge/webservice/auth/login", Credentials_data);
+                var myJObject = JObject.Parse(result);
+                       
+                // comment this section when done
+//                JObject myJObject = JObject.Parse(@"{
+//               'ResultCode': 1,
+//               'Remark': 'Successful',
+//               'Token': {
+//                        'Name': 'Kajanikaunda@gmail.com',
+//                        'Value': '161fd72e-9bfe-4924-a22a-322f66bd5b9d'
+//                        },
+//               'Authenticated': true,
+//               'UserDetails': {
+//                              'Username': 'Kajanikaunda@gmail.com',
+//                              'Password': 'password000122',
+//                              'FirstName': 'Kajani',
+//                              'LastName': 'Kaunda',
+//                              'email': 'Kajanikaunda@gmail.com'
+//                              }
+//                }");
+                // comment this section when done
 
-                // show/process/deserialize this json response
+                // debugging stuff remove once done
+                //this.textBox1.Text = result;
+                //this.textBox1.Refresh();
 
-                this.textBox1.Text = result;
-                this.textBox1.Refresh();
+                // check if authenticated
+                pub_login_authenticated = (string)myJObject.SelectToken("Authenticated");
+                pub_login_remark = (string)myJObject.SelectToken("Remark");
 
-                if (result.Contains("Successful"))
-                {
-                 MessageBox.Show("Login Successful");
-                 pub_isloggedin = true;
-                 this.textBoxMRAUsername.Enabled = false;
-                 this.textBoxMRAPassword.Enabled = false;
-                } else 
-                {
-                    MessageBox.Show("Login not successful");
-                    pub_isloggedin = false;
-                }
-                //
+                // get data depending on authentication
+                if   (pub_login_authenticated == "True")
+                     {
+                         pub_login_apikey = (string)myJObject.SelectToken("Token.Value");
+                         pub_login_username = (string)myJObject.SelectToken("UserDetails.Username");
+                         pub_login_firstname = (string)myJObject.SelectToken("UserDetails.FirstName");
+                         pub_login_lastname = (string)myJObject.SelectToken("UserDetails.LastName");
+                         //
+                         MessageBox.Show("Login Succeeded: " + pub_login_remark);
+                         //
+                         pub_isloggedin = true;
+                         this.textBoxMRAUsername.Enabled = false;
+                         this.textBoxMRAPassword.Enabled = false;
+                         this.buttonLoggedUser.Text = "Logged in user is: " + pub_login_firstname + " " + pub_login_lastname;
+
+                     }
+                else {
+                         MessageBox.Show("Login Failed: " + pub_login_remark);
+                         pub_isloggedin = false;
+                     }
             }
-        
         }
 
-        // exit the app..OK
+        // exit the app..ok
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        // logout..ok
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-
-
             if (pub_isloggedin == false)
             {
                 MessageBox.Show("Login First!");
@@ -207,39 +152,46 @@ namespace MRAtaxpayerWS
             using (WebClient client = new WebClient())
             {
 
-              
-
                 // set content type
                 client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                
                 // call API with url and user credentials
                 string result = client.UploadString("https://www.mra.mw/sandbox/programming/challenge/webservice/auth/logout", Credentials_data);
-              
-                // show/process json response
+                var myJObject = JObject.Parse(result);
+
+
                 //if successful - re-enable user text box ...
 
-                this.textBox1.Text = result;
-                this.textBox1.Refresh();
+                // debugging stuff ... remove once done
+                //this.textBox1.Text = result;
+                //this.textBox1.Refresh();
+                // debugging stuff ... remove once done
 
-                if (result.Contains("Log out Successful"))
+                //...
+                // check if successful
+                pub_logout_ok = (int)myJObject.SelectToken("ResultCode");
+                pub_logout_remark = (string)myJObject.SelectToken("Remark");
+
+                // get data depending on authentication
+                if (pub_logout_ok == 1)
                 {
-                    MessageBox.Show("Logout Successful");
-                    pub_isloggedin = false ;
+                    //
+                    MessageBox.Show("Logout Succeeded: " + pub_logout_remark);
+                    //
+                    pub_isloggedin = false;
                     this.textBoxMRAUsername.Enabled = true;
                     this.textBoxMRAPassword.Enabled = true;
+                    this.buttonLoggedUser.Text = "";
+                    this.buttonLoggedUser.Refresh();
                     this.textBoxMRAUsername.Clear();
                     this.textBoxMRAPassword.Clear();
                 }
                 else
                 {
-                    MessageBox.Show("Logout not successful");
+                    MessageBox.Show("Logout Failed: " + pub_logout_remark);
                     pub_isloggedin = true;
                 }
-
-                //"Log out Successful"
-
-                this.textBoxMRAUsername.Enabled = true;
-            }
+             }
         }
 
         // register a tax payer
@@ -247,164 +199,197 @@ namespace MRAtaxpayerWS
         {
             if (pub_isloggedin == false)
             { MessageBox.Show("Login first."); return; }
-            
-            // set selected task
-            pub_wstask = "REGISTER";
+
+            // if any field is empty do not proceed
+            if (this.textBoxTPIN.Text == "") { MessageBox.Show("Empty TPIN field. Edit aborted"); return; };
+            if (this.textBoxBUSINESSCERTIFICATENUMBER.Text == "") { MessageBox.Show("Empty Business Certificate Number field. Edit aborted"); return; };
+            if (this.textBoxTRADINGNAME.Text == "") { MessageBox.Show("Empty Trading Name field. Edit aborted"); return; };
+
+            // vaildate/format date first - date is validated because i am using a date time picker which will always have the correct date
+
+            pub_year = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Year.ToString("0000");
+            pub_month = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Month.ToString("00");
+            pub_day = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Day.ToString("00");
+            pub_date = String.Format("{0:0000}", pub_year) + "/" + String.Format("{0:00}", pub_month) + "/" + String.Format("{0:00}", pub_day);
+            //MessageBox.Show(pub_date.ToString());
+
+            if (pub_date.ToString() == "") { MessageBox.Show("Empty Business Registration Date field. Edit aborted"); return; };
+
+            if (this.textBoxMOBILENUMBER.Text == "") { MessageBox.Show("Empty Mobile Number field. Edit aborted"); return; };
+            if (this.textBoxEMAIL.Text == "") { MessageBox.Show("Empty Email field. Edit aborted"); return; };
+            if (this.textBoxPHYSICALLOCATION.Text == "") { MessageBox.Show("Empty Physical Location field. Edit aborted"); return; };
+            if (this.textBoxUSERNAME.Text == "") { MessageBox.Show("Empty User Name field. Edit aborted"); return; };
+            if (this.textBoxDELETED.Text == "") { MessageBox.Show("Empty Deleted field. Edit aborted"); return; };
+            // more data validations required. eg is email in correct format? does it exist? is physical location is this country? verified by utilty bill?
+
+
 
             using (WebClient client = new WebClient())
             {
+                // build parameters to pass to the web request from the App form. 
+
                 var reqparm = new System.Collections.Specialized.NameValueCollection();
-                reqparm.Add("TPIN", "55545555");
-                reqparm.Add("BusinessCertificateNumber", "HHHHHH");
-                reqparm.Add("TradingName", "dddddd");
-                reqparm.Add("BusinessRegistrationDate", "2021/11/06");
-                reqparm.Add("MobileNumber", "232443433");
-                reqparm.Add("Email", "kajanikaunda@gmail.com");
-                reqparm.Add("PhysicalLocation", "zombas");
-                reqparm.Add("Username", "kajanikaunda@gmail.com");
-
-                reqparm.Add("TPIN", this.textBoxTPIN.Text );
-                reqparm.Add("BusinessCertificateNumber", this.textBoxBUSINESSCERTIFICATENUMBER .Text );
-                reqparm.Add("TradingName", this.textBoxTRADINGNAME .Text );
-                reqparm.Add("BusinessRegistrationDate", "2021/11/06");
-                reqparm.Add("MobileNumber", "232443433");
-                reqparm.Add("Email", "kajanikaunda@gmail.com");
-                reqparm.Add("PhysicalLocation", "zombas");
-                reqparm.Add("Username", "kajanikaunda@gmail.com");
+                reqparm.Add("TPIN", this.textBoxTPIN.Text);
+                reqparm.Add("BusinessCertificateNumber", this.textBoxBUSINESSCERTIFICATENUMBER.Text);
+                reqparm.Add("TradingName", this.textBoxTRADINGNAME.Text);
+                reqparm.Add("BusinessRegistrationDate", pub_date.ToString());
+                reqparm.Add("MobileNumber", this.textBoxMOBILENUMBER.Text);
+                reqparm.Add("Email", this.textBoxEMAIL.Text);
+                reqparm.Add("PhysicalLocation", this.textBoxPHYSICALLOCATION.Text);
+                reqparm.Add("Username", this.textBoxUSERNAME.Text);
 
 
+
+
+                //var reqparm = new System.Collections.Specialized.NameValueCollection();
+                //reqparm.Add("TPIN", this.textBoxTPIN.Text );
+                //reqparm.Add("BusinessCertificateNumber", this.textBoxBUSINESSCERTIFICATENUMBER.Text );
+                //reqparm.Add("TradingName", this.textBoxTRADINGNAME.Text );
+                //reqparm.Add("BusinessRegistrationDate", pub_date);
+                //reqparm.Add("MobileNumber", this.textBoxMOBILENUMBER.Text );
+                //reqparm.Add("Email", this.textBoxEMAIL.Text);
+                //reqparm.Add("PhysicalLocation", this.textBoxPHYSICALLOCATION.Text);
+                //reqparm.Add("Username", this.textBoxUSERNAME.Text);
+                
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                client.Headers.Add("candidateid", "kajanikaunda@gmail.com");
-                client.Headers.Add("apikey", "2c798bc8-731a-46ce-81e9-ac8977ddc81c");
+                client.Headers.Add("candidateid", this.textBoxMRAUsername.Text );
+                client.Headers.Add("apikey", pub_login_apikey);
+                
+                //byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/add", "POST", reqparm);
+                //string responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                try 
+                {
+
+                    byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/add", "POST", reqparm);
+                    string responsebody = Encoding.UTF8.GetString(responsebytes);
+                    //MessageBox.Show(responsebody);
+                    //MessageBox.Show(client.ResponseHeaders.ToString());
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                    return;
+                }
 
 
-                byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/add", "POST", reqparm);
-                string responsebody = Encoding.UTF8.GetString(responsebytes);
-
-
-                MessageBox.Show(responsebody);
-
-
-                MessageBox.Show(client.ResponseHeaders.ToString());
-
-
-
+                //MessageBox.Show(responsebody);
+                //MessageBox.Show(client.ResponseHeaders.ToString());
             }
-
-
-
-
+            MessageBox.Show("Tax payer is now Registered");
         }
 
-
-        // Edit record...
+        // edit record
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             if (pub_isloggedin == false)
             { MessageBox.Show("Login first."); return; }
 
-            // set selected task
-            pub_wstask = "EDIT";
+            // if any field is empty do not proceed
+            if (this.textBoxTPIN.Text == "") { MessageBox.Show("Empty TPIN field. Edit aborted");  return; };
+            if (this.textBoxBUSINESSCERTIFICATENUMBER.Text == "") { MessageBox.Show("Empty Business Certificate Number field. Edit aborted"); return; }; 
+            if (this.textBoxTRADINGNAME.Text == "") { MessageBox.Show("Empty Trading Name field. Edit aborted"); return; };
 
+            // vaildate/format date first - date is validated because i am using a date time picker which will always have the correct date
 
-            using (WebClient client = new WebClient())
+            pub_year = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Year.ToString("0000");
+            pub_month = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Month.ToString("00");
+            pub_day = dateTimePickerBUSINESSREGISTRATIONDATE.Value.Day.ToString("00");
+            pub_date = String.Format("{0:0000}", pub_year) + "/" + String.Format("{0:00}", pub_month) + "/" + String.Format("{0:00}", pub_day);
+            //MessageBox.Show(pub_date.ToString());
+            
+            if (pub_date.ToString () == "") { MessageBox.Show("Empty Business Registration Date field. Edit aborted"); return; }; 
+  
+            if (this.textBoxMOBILENUMBER.Text == "") { MessageBox.Show("Empty Mobile Number field. Edit aborted"); return; };
+            if (this.textBoxEMAIL.Text == "") { MessageBox.Show("Empty Email field. Edit aborted"); return; };
+            if (this.textBoxPHYSICALLOCATION.Text == "") { MessageBox.Show("Empty Physical Location field. Edit aborted"); return; };
+            if (this.textBoxUSERNAME.Text == "") { MessageBox.Show("Empty User Name field. Edit aborted"); return; };
+            if (this.textBoxDELETED.Text == "") { MessageBox.Show("Empty Deleted field. Edit aborted"); return; }; 
+            // more data validations required. eg is email in correct format? does it exist? is physical location is this country? verified by utilty bill?
+
+             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection();
-                reqparm.Add("TPIN", "55545555");
-                reqparm.Add("BusinessCertificateNumber", "HHHHHH");
-                reqparm.Add("TradingName", "edited");
-                reqparm.Add("BusinessRegistrationDate", "2021/11/06");
-                reqparm.Add("MobileNumber", "232443433");
-                reqparm.Add("Email", "kajanikaunda@gmail.com");
-                reqparm.Add("PhysicalLocation", "zombas");
-                reqparm.Add("Username", "kajanikaunda@gmail.com");
+                reqparm.Add("TPIN", this.textBoxTPIN .Text );
+                reqparm.Add("BusinessCertificateNumber", this.textBoxBUSINESSCERTIFICATENUMBER .Text );
+                reqparm.Add("TradingName", this.textBoxTRADINGNAME .Text );
+                reqparm.Add("BusinessRegistrationDate", pub_date.ToString ());
+                reqparm.Add("MobileNumber", this.textBoxMOBILENUMBER .Text );
+                reqparm.Add("Email", this.textBoxEMAIL .Text );
+                reqparm.Add("PhysicalLocation", this.textBoxPHYSICALLOCATION .Text );
+                reqparm.Add("Username", this.textBoxUSERNAME .Text );
+                reqparm.Add("Deleted", this.textBoxDELETED .Text );
 
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                client.Headers.Add("candidateid", "kajanikaunda@gmail.com");
-                client.Headers.Add("apikey", "2c798bc8-731a-46ce-81e9-ac8977ddc81c");
+                client.Headers.Add("candidateid", this.textBoxMRAUsername.Text);
+                client.Headers.Add("apikey", pub_login_apikey);
 
 
-                byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/edit", "POST", reqparm);
-                string responsebody = Encoding.UTF8.GetString(responsebytes);
+                //byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/edit", "POST", reqparm);
 
+                try
+                {
+                    byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/edit", "POST", reqparm);
+                    string responsebody = Encoding.UTF8.GetString(responsebytes);
+                    //MessageBox.Show(responsebody);
+                    //MessageBox.Show(client.ResponseHeaders.ToString());
 
-                MessageBox.Show(responsebody);
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                    return;
+                }
 
-
-                MessageBox.Show(client.ResponseHeaders.ToString());
-
-
+                //string responsebody = Encoding.UTF8.GetString(responsebytes);
+                //MessageBox.Show(responsebody);
+                //MessageBox.Show(client.ResponseHeaders.ToString());
             }
+
+             MessageBox.Show("Record Edited and saved");
 
         }
 
-
-        // Delete record
+        // delete record
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (pub_isloggedin == false)
             { MessageBox.Show("Login first."); return; }
             
-            // set selected task
-            pub_wstask = "DELETE";
-
-
             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection();
                 reqparm.Add("TPIN", this.textBoxTPIN .Text );
-              
-
+ 
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 client.Headers.Add("candidateid", this.textBoxMRAUsername .Text );
-                client.Headers.Add("apikey", "2c798bc8-731a-46ce-81e9-ac8977ddc81c");
+                client.Headers.Add("apikey", pub_login_apikey);
+
+                try
+                {
+                    byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/delete", "POST", reqparm);
+                    string responsebody = Encoding.UTF8.GetString(responsebytes);
 
 
-                byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/delete", "POST", reqparm);
-                string responsebody = Encoding.UTF8.GetString(responsebytes);
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                    return;
+                }
 
-                this.textBox1.Text = responsebody;
-                this.textBox1.Refresh();  
+                // debugging stuff remove once done
+                //this.textBox1.Text = responsebody;
+                //this.textBox1.Refresh();
+                // debugging stuff remove once done
 
             }
 
+            MessageBox.Show("Record Deleted");
+
         }
 
-
-        //
-
-        public class Person
-        {
-            public string Name;
-            public int Age;
-            public string Location;
-        }
-        public class Record
-        {
-            public Person record;
-        }
-
-
-        //public class Person
-        //{
-        //    //Fields - model the taxpayer data
-        //    public string _c_tpin;
-        //    public string _c_businesscertificatenumber;
-        //    public string _c_tradingname;
-        //    public string _c_businessregistrationdate;
-        //    public string _c_mobilenumber;
-        //    public string _c_email;
-        //    public string _c_physicallocation;
-        //    public string _c_username;
-        //    public Boolean _c_deleted;
-        //    public int _c_id;
-        //}
-        //public class People
-        //{
-        //    public Person[] people;
-        //}
-
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+        // tax payer sub class 
         public class taxperson
         {
             public string TPIN { get; set; }
@@ -419,38 +404,17 @@ namespace MRAtaxpayerWS
             public int id { get; set; }
         }
 
-
-
-        //public class taxpersonnn
-        //{
-
-        //    public string c_tpin { get; set; }
-        //    public string c_businesscertificatenumber { get; set; }
-        //    public string c_tradingname { get; set; }
-        //    public string c_businessregistrationdate { get; set; }
-        //    public string c_mobilenumber { get; set; }
-        //    public string c_email { get; set; }
-        //    public string c_physicallocation { get; set; }
-        //    public string c_username { get; set; }
-        //    public Boolean c_deleted { get; set; }
-        //    public int c_id { get; set; }
-        //}
-
+        // tax payer class
         public class taxpersonCollection
         {
             public taxperson[] taxpeople {get;set;}
         }
 
-
-        // View all records
+        // view all records
         private void buttonViewAll_Click(object sender, EventArgs e)
         {
             if (pub_isloggedin == false)
             { MessageBox.Show("Login first."); return; }
-
-
-            // set selected task
-            pub_wstask = "VIEW";
 
             using (WebClient client = new WebClient())
             {
@@ -458,361 +422,125 @@ namespace MRAtaxpayerWS
 
                 reqparm.Add("", "");
 
-
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 client.Headers.Add("candidateid", this.textBoxMRAUsername.Text);
-                client.Headers.Add("apikey", "864be0ba-c0dd-4f8e-8af2-cafeff7f8e65");
+                client.Headers.Add("apikey", pub_login_apikey);
 
-      
+                try
+                {
+                    json_responsestring = client.DownloadString("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/getAll");
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                    return;
+                }
 
-                string responsestring = client.DownloadString("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/getAll");
-        
+                json_responsestring = client.DownloadString("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/getAll");
 
-                MessageBox.Show(responsestring);
+                // debugging stuff remove once done
+                //this.textBox1.Text = json_responsestring;
+                //this.textBox1.Refresh();
 
+                // deserialise json string returned by web service to a data table
+                dt = (DataTable)JsonConvert.DeserializeObject(json_responsestring, (typeof(DataTable)));
 
-                MessageBox.Show(client.ResponseHeaders.ToString());
-
-                //-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                //var table = JsonConvert.DeserializeObject<datatable>(responsestring);
-
-                DataTable dt = (DataTable)JsonConvert.DeserializeObject(responsestring, (typeof(DataTable)));
-                this.taxpeopleDataGridView .DataSource = dt ;
-
-
-
-
-                //if (taxpeopleDataGridView.SelectedCells.Count > 0)
-                //{
-                //    string id = taxpeopleDataGridView.SelectedCells[0].Value.ToString();
-
-                //    MessageBox.Show(id.ToString ()+" <=> CELL");
-                //}
-
-
-
-
-
-
-                //taxpeopleDataGridView.SelectionChanged 
-
-
-
-                //this.taxpeopleDataGridView.DataBindings();
-
-                //this.taxpeopleDataGridView.Refresh();
-
-                //this.taxpeopleDataGridView .
-
-
-                //this.taxpeopleDataGridView.Rows .
-
-                //this.taxpeopleDataGridView.DataSource .;
-
-
-
-
-
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                //taxpersonCollection tmp = JsonConvert.DeserializeObject<taxpersonCollection>(responsestring);
-
-                //this.taxpeopleDataGridView.DataSource = tmp;
-                //this.taxpeopleDataGridView.Refresh ();
-
-
-                MessageBox.Show("wait");
-
-                //foreach (string typeStr in tmp.taxpeople[2].TPIN.ToString() )//tmp.type[0])
-                //{
-                //    // Do something with typeStr
-                //}
-
-
-                // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
-               // LOP DataContractJsonSerializer serializerObject = new DataContractJsonSerializer(typeof(taxpersonCollection));
-
-
-
-
-                //taxpersonCollection taxpersonCollectionObject = (taxpersonCollection)serializerObject.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(responsestring))); //Jsonstream);
-
-              
-                //MessageBox.Show("Count=" + taxpersonCollectionObject.taxpeople.Count().ToString ());
+                // filter to show only records belonging to logged user
+                dt.Select("Username = '" + pub_login_username + "'");
+                              
+                // attach data table to data grid as its data source
+                this.taxpeopleDataGridView.DataSource = dt;
                 
-
-                //byte[] byteArray = Encoding.ASCII.GetBytes(responsestring.ToString ());
-
-                //if (byteArray != null && byteArray.Length > 0)
-                //{
-                //    MessageBox.Show ("not null and not empty");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("null");
-                //}
-
-                //MemoryStream Jsonstream = new MemoryStream(byteArray);
-
-
-                //taxpersonCollection taxpersonCollectionObject = (taxpersonCollection)serializerObject.ReadObject(Jsonstream);
-
-                //try { }
-                //catch (Exception e)
-                //{}
-
-           // LOP     taxpersonCollection taxpersonCollectionObject = (taxpersonCollection)serializerObject.ReadObject(new MemoryStream(File.ReadAllBytes(@"C:\MRA\j.txt")));
-
-
-                // ok
-
-                //if (taxpersonCollectionObject != null)
-                //{
-                //    MessageBox.Show ("not null and not empty - again");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("null - again");
-                //}
-
-
-
-                //taxpersonCollection m = new taxpersonCollection();
-
-                //this.taxpeopleDataGridView.DataSource = taxpersonCollectionObject;
-
-                //this.taxpeopleDataGridView.Refresh();
-
-
-                //m.taxpeople .
-
-
-
-
-                //taxperson f = new List<taxperson>(taxpersonCollectionObject);
-
-
-
-
-
-
-
-                //MessageBox.Show(taxpersonCollectionObject.TPIN.ToString());
-
-
-
-
-                //List<taxpersonCollection> primeNumbers = new List<taxpersonCollection>();
-
-                //primeNumbers = new List<taxpersonCollectionObject> ;
-
-
-
-                //taxpersonCollection[] yes = new taxpersonCollectionObject[];
-
-                //string h = new List<taxpersonCollectionObject>(taxperson);
-
-
-                //taxpersonCollectionObject.taxpeople[].
-
-
-
-                //for each (i in taxpersonCollectionObject)
-
-
-                //int totalElements;
-                //string[] animals = { "Cat", "Alligator", "fox", "donkey", "Cat", "alligator" };
-                //totalElements = animals.Count(); //6
-
-                //totalElements = taxpersonCollectionObject.taxpeople.Count();
-
-
-                //MessageBox.Show(taxpersonCollectionObject.taxpeople.Count().ToString());
-                //MessageBox.Show(totalElements.ToString());
-
-
-
-                //string tpinn = taxpersonCollectionObject.taxpeople[1].c_tpin;
-                //MessageBox.Show("Mt TPIN: " + tpinn.ToString());
-
-
-
-
-
-                //-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                // deserialise and put data into objects for view and any other processing
-
-                //((
-
-                //JavaScriptSerializer ser = new JavaScriptSerializer();
-                //People Person = new ser.Deserialize<List<People>>(responsestring);
-
-                //JavaScriptSerializer serd = new JavaScriptSerializer();
-                //var records = new serd.Deserialize<List<Record>>(responsestring);
-
-                
-
-                //taxpayerCollectionClass taxpayerCollectionClass = js.Deserialize<taxpayerCollectionClass>(responsestring)
-                //((
-
-
-                //===
-                //JavaScriptSerializer js = new JavaScriptSerializer();
-
-                ////ok
-
-
-                //taxpayerCollectionClass  pan = new taxpayerCollectionClass() ;
-
-                
-
-
-                //taxpayerCollectionClass taxpayerCollectionClass = js.Deserialize<taxpayerCollectionClass>(responsestring);//e
-
-                //pan = js.Deserialize<taxpayerCollectionClass>(responsestring);//e
-
-                
-
-                //MessageBox.Show(pan.taxpayers.Count.ToString ());
-
-
-
-
-                //public object Deserialize (string responsestring, Type taxpayerCollectionClass);
-
-
-
-
-
-                ////taxpayerCollectionClass taxpayerCollectionClass = js.Deserialize<taxpayerCollectionClass>(responsestring);
-
-                ////BlogSites blogObject = js.Deserialize<BlogSites>(jsonData);
-
-                ////string name = blogObject.Name;Messages
-                ////string desk = blogObject.Desk;
-
-
-                ////string mytpin = taxpayerClass._tpin;
-                //MessageBox.Show(taxpayerCollectionClass.taxpayers.Count.ToString());
-                //===
-                //----
-
-                ////
-                //////var jsonData = "{\"Name\":\"john\", \"Desk\":22,\"Name\":\"mary\", \"Desk\":20 }";
-                //MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(responsestring));
-                //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(taxpayerCollectionClass));
-
-                ////Type 'MRAtaxpayerWS.taxpayerCollectionClass' cannot be serialized. Consider marking it with 
-                ////the DataContractAttribute attribute, and marking all of its members you want serialized with 
-                ////the DataMemberAttribute attribute.  If the type is a collection, consider marking it with the
-                ////CollectionDataContractAttribute.  See the Microsoft .NET Framework documentation for other supported types.
-
-
-                //var deserialized = ser.ReadObject(ms) as taxpayerCollectionClass; //e
-                //ms.Close();
-
-                ////BlogSites bs = deserialized;
-
-                ////foreach (var item in bs.Desk)
-                ////{
-                ////    Console.WriteLine(item);
-                ////    MessageBox.Show("[-"+item.ToString() );
-                ////}
-                //-----
-                //
-                
-
-                //try
-                //{
-                //    byte[] responsebytes = client.UploadValues("https://www.mra.mw/sandbox/programming/challenge/webservice/Taxpayers/getAll", "GET", reqparm);
-                  
-                //    string responsebody = Encoding.UTF8.GetString(responsebytes);
-
-
-                //    MessageBox.Show(responsebody);
-
-
-                //    MessageBox.Show(client.ResponseHeaders.ToString());
-
-                //}
-                //catch (WebException ex)
-                //{
-
-                //    MessageBox.Show(ex.Message );
-
-
-                
-                //}
-
-
-
-
-
-              
-
-
+                // when row selection changes on the grid, update the data input panel
+                // done - implemented in the procedure [taxpeopleDataGridView_CellContentClick]
+
+                // process completion message
+                MessageBox.Show("All records retrieved");
             }
-
-
-
-
-
         }
-
-        // ###########################
-
-        public class School
-        {
-        public string SchoolName {get;set;}
-        public string SchoolAddress {get;set;}
-        public int ZipCode {get;set;}
-        public Teacher[] Teachers {get;set;}
-        }
-
-        public class Teacher
-        {
-        public int TeacherId {get;set;}
-        public string TeacherName {get;set;}
-        }
-
-        //
-
-
-
-        //
-
-
-
-        private void buttonCancel_Click(object sender, EventArgs e)
+    
+        // clear data input panel - get it ready for adding etc..ok
+        private void buttonClearDataInputPanel_Click(object sender, EventArgs e)
         {
             if (pub_isloggedin == false)
             { MessageBox.Show("Login first."); return; }
+
+            // clear app form data fields
+            this.textBoxTPIN.Clear();
+            this.textBoxBUSINESSCERTIFICATENUMBER.Clear();
+            this.textBoxTRADINGNAME.Clear();
+            this.dateTimePickerBUSINESSREGISTRATIONDATE.Value = DateTime.Today ;
+            this.textBoxMOBILENUMBER.Clear();
+            this.textBoxEMAIL.Clear();
+            this.textBoxPHYSICALLOCATION.Clear();
+            this.textBoxUSERNAME.Clear();
+            this.textBoxDELETED.Clear();
+            this.textBoxID.Clear();
+
+            // completion mesaage
+            MessageBox.Show("Panel Cleared.");
+        }
+
+        // clear data grid panel..ok
+        private void buttonClearDataGridPanel_Click(object sender, EventArgs e)
+        {
+            if (pub_isloggedin == false)
+            { MessageBox.Show("Login first."); return; }
+
+            // clear data grid view control
+            dt.Rows.Clear();
+            this.taxpeopleDataGridView.Refresh ();
+
+            // completion mesaage
+            MessageBox.Show("Panel Cleared.");
+        }
+
+        public void taxpeopleDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        //    //taxpeopleDataGridView.Refresh();
+          
+        //        // update the data input form with each change in row.
+        //        if (e.RowIndex >= 0)
+        //        {
+        //            this.textBoxTPIN.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[0].Value.ToString();
+        //            this.textBoxBUSINESSCERTIFICATENUMBER.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
+        //            this.textBoxTRADINGNAME.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
+        //            this.dateTimePickerBUSINESSREGISTRATIONDATE.Value = Convert.ToDateTime(this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[3].Value.ToString());
+        //            this.textBoxMOBILENUMBER.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[4].Value.ToString();
+        //            this.textBoxEMAIL.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[5].Value.ToString();
+        //            this.textBoxPHYSICALLOCATION.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[6].Value.ToString();
+        //            this.textBoxUSERNAME.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[7].Value.ToString();
+        //            this.textBoxDELETED.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[8].Value.ToString();
+        //            this.textBoxID.Text = this.taxpeopleDataGridView.Rows[e.RowIndex].Cells[9].Value.ToString();
+        //        }
+        //        taxpeopleDataGridView.Refresh();
+        }
+
+        public void taxpeopleDataGridView_CellMouseClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        public void GetRecord()
+        {
+            
+            this.textBoxTPIN.Text = this.taxpeopleDataGridView.CurrentRow .Cells [0].Value .ToString ();
+            this.textBoxBUSINESSCERTIFICATENUMBER.Text = this.taxpeopleDataGridView.CurrentRow.Cells[1].Value.ToString();
+            this.textBoxTRADINGNAME.Text = this.taxpeopleDataGridView.CurrentRow.Cells[2].Value.ToString();
+            this.dateTimePickerBUSINESSREGISTRATIONDATE.Value = Convert.ToDateTime(this.taxpeopleDataGridView.CurrentRow .Cells [3].Value .ToString ());
+            this.textBoxMOBILENUMBER.Text = this.taxpeopleDataGridView.CurrentRow .Cells [4].Value .ToString ();
+            this.textBoxEMAIL.Text = this.taxpeopleDataGridView.CurrentRow.Cells[5].Value.ToString();
+            this.textBoxPHYSICALLOCATION.Text = this.taxpeopleDataGridView.CurrentRow.Cells[6].Value.ToString();
+            this.textBoxUSERNAME.Text = this.taxpeopleDataGridView.CurrentRow.Cells[7].Value.ToString();
+            this.textBoxDELETED.Text = this.taxpeopleDataGridView.CurrentRow.Cells[8].Value.ToString();
+            this.textBoxID.Text = this.taxpeopleDataGridView.CurrentRow.Cells[9].Value.ToString();
     
         }
 
-        private void buttonClearPanels_Click(object sender, EventArgs e)
+        // select record for editing. put selected record in data grid to the data input panel.
+        private void buttonSelect_Click(object sender, EventArgs e)
         {
-            if (pub_isloggedin == false)
-            { MessageBox.Show("Login first."); return; }
-
-            // no time to develop. but optional function.
+            GetRecord();
         }
-
-        private void buttonApply_Click(object sender, EventArgs e)
-        {
-            if (pub_isloggedin == false)
-            { MessageBox.Show("Login first."); return; }
-        }
-      
-
-     
-
-
-
 
 
 
@@ -833,3 +561,4 @@ namespace MRAtaxpayerWS
 
     }
 }
+

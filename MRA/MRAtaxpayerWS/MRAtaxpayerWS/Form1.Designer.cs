@@ -31,9 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonApply = new System.Windows.Forms.Button();
-            this.buttonClearPanels = new System.Windows.Forms.Button();
+            this.buttonClearDataGridPanel = new System.Windows.Forms.Button();
+            this.buttonClearDataInputPanel = new System.Windows.Forms.Button();
             this.buttonViewAll = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
@@ -47,6 +46,20 @@
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.taxpeopleDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taxpeopleBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.taxpersonCollectionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
@@ -70,54 +83,40 @@
             this.textBoxBUSINESSCERTIFICATENUMBER = new System.Windows.Forms.TextBox();
             this.textBoxTPIN = new System.Windows.Forms.TextBox();
             this.taxpeopleBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.taxpeopleBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.taxpeopleBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.taxpersonCollectionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.taxpeopleBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.taxpeopleDataGridView = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonLoggedUser = new System.Windows.Forms.Button();
+            this.buttonSelect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taxpersonCollectionBindingSource)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingNavigator)).BeginInit();
             this.taxpeopleBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpersonCollectionBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleDataGridView)).BeginInit();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.buttonCancel);
-            this.groupBox1.Controls.Add(this.buttonApply);
-            this.groupBox1.Controls.Add(this.buttonClearPanels);
+            this.groupBox1.Controls.Add(this.buttonLoggedUser);
+            this.groupBox1.Controls.Add(this.buttonClearDataGridPanel);
+            this.groupBox1.Controls.Add(this.buttonClearDataInputPanel);
             this.groupBox1.Controls.Add(this.buttonViewAll);
             this.groupBox1.Controls.Add(this.buttonExit);
             this.groupBox1.Controls.Add(this.buttonDelete);
@@ -130,35 +129,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Control Panel";
             // 
-            // buttonCancel
+            // buttonClearDataGridPanel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(97, 50);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 52);
-            this.buttonCancel.TabIndex = 9;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonClearDataGridPanel.Location = new System.Drawing.Point(188, 48);
+            this.buttonClearDataGridPanel.Name = "buttonClearDataGridPanel";
+            this.buttonClearDataGridPanel.Size = new System.Drawing.Size(166, 23);
+            this.buttonClearDataGridPanel.TabIndex = 12;
+            this.buttonClearDataGridPanel.Text = "Clear Data Grid Panel";
+            this.buttonClearDataGridPanel.UseVisualStyleBackColor = true;
+            this.buttonClearDataGridPanel.Click += new System.EventHandler(this.buttonClearDataGridPanel_Click);
             // 
-            // buttonApply
+            // buttonClearDataInputPanel
             // 
-            this.buttonApply.Location = new System.Drawing.Point(6, 50);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(75, 52);
-            this.buttonApply.TabIndex = 8;
-            this.buttonApply.Text = "Apply";
-            this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
-            // 
-            // buttonClearPanels
-            // 
-            this.buttonClearPanels.Location = new System.Drawing.Point(370, 19);
-            this.buttonClearPanels.Name = "buttonClearPanels";
-            this.buttonClearPanels.Size = new System.Drawing.Size(75, 23);
-            this.buttonClearPanels.TabIndex = 4;
-            this.buttonClearPanels.Text = "Clear Panels";
-            this.buttonClearPanels.UseVisualStyleBackColor = true;
-            this.buttonClearPanels.Click += new System.EventHandler(this.buttonClearPanels_Click);
+            this.buttonClearDataInputPanel.Location = new System.Drawing.Point(6, 48);
+            this.buttonClearDataInputPanel.Name = "buttonClearDataInputPanel";
+            this.buttonClearDataInputPanel.Size = new System.Drawing.Size(166, 23);
+            this.buttonClearDataInputPanel.TabIndex = 11;
+            this.buttonClearDataInputPanel.Text = "Clear Data Input Panel";
+            this.buttonClearDataInputPanel.UseVisualStyleBackColor = true;
+            this.buttonClearDataInputPanel.Click += new System.EventHandler(this.buttonClearDataInputPanel_Click);
             // 
             // buttonViewAll
             // 
@@ -172,7 +161,8 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(451, 19);
+            this.buttonExit.FlatAppearance.BorderColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonExit.Location = new System.Drawing.Point(463, 19);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(91, 23);
             this.buttonExit.TabIndex = 6;
@@ -285,12 +275,128 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.panel2);
-            this.groupBox3.Location = new System.Drawing.Point(393, 142);
+            this.groupBox3.Location = new System.Drawing.Point(393, 197);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(486, 314);
+            this.groupBox3.Size = new System.Drawing.Size(486, 259);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Data Grid Panel";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.taxpeopleDataGridView);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 16);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(480, 240);
+            this.panel2.TabIndex = 0;
+            // 
+            // taxpeopleDataGridView
+            // 
+            this.taxpeopleDataGridView.AllowUserToAddRows = false;
+            this.taxpeopleDataGridView.AllowUserToDeleteRows = false;
+            this.taxpeopleDataGridView.AutoGenerateColumns = false;
+            this.taxpeopleDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.taxpeopleDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewCheckBoxColumn1,
+            this.dataGridViewTextBoxColumn9});
+            this.taxpeopleDataGridView.DataSource = this.taxpeopleBindingSource1;
+            this.taxpeopleDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.taxpeopleDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.taxpeopleDataGridView.MultiSelect = false;
+            this.taxpeopleDataGridView.Name = "taxpeopleDataGridView";
+            this.taxpeopleDataGridView.ReadOnly = true;
+            this.taxpeopleDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.taxpeopleDataGridView.Size = new System.Drawing.Size(480, 240);
+            this.taxpeopleDataGridView.TabIndex = 9;
+            this.taxpeopleDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.taxpeopleDataGridView_CellContentClick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "TPIN";
+            this.dataGridViewTextBoxColumn1.HeaderText = "TPIN";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "BusinessCertificateNumber";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Business Certificate Number";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "TradingName";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Trading Name";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "BusinessRegistrationDate";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Business Registration Date";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "MobileNumber";
+            this.dataGridViewTextBoxColumn5.HeaderText = "Mobile Number";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "Email";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Email";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.DataPropertyName = "PhysicalLocation";
+            this.dataGridViewTextBoxColumn7.HeaderText = "Physical Location";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.DataPropertyName = "Username";
+            this.dataGridViewTextBoxColumn8.HeaderText = "Username";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Deleted";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Deleted";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.DataPropertyName = "id";
+            this.dataGridViewTextBoxColumn9.HeaderText = "id";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // taxpeopleBindingSource1
+            // 
+            this.taxpeopleBindingSource1.DataMember = "taxpeople";
+            this.taxpeopleBindingSource1.DataSource = this.taxpersonCollectionBindingSource;
+            // 
+            // taxpersonCollectionBindingSource
+            // 
+            this.taxpersonCollectionBindingSource.DataSource = typeof(MRAtaxpayerWS.Form1.taxpersonCollection);
             // 
             // groupBox4
             // 
@@ -426,6 +532,7 @@
             // 
             this.dateTimePickerBUSINESSREGISTRATIONDATE.Location = new System.Drawing.Point(166, 96);
             this.dateTimePickerBUSINESSREGISTRATIONDATE.Name = "dateTimePickerBUSINESSREGISTRATIONDATE";
+            this.dateTimePickerBUSINESSREGISTRATIONDATE.ShowCheckBox = true;
             this.dateTimePickerBUSINESSREGISTRATIONDATE.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerBUSINESSREGISTRATIONDATE.TabIndex = 11;
             // 
@@ -525,6 +632,31 @@
             this.taxpeopleBindingNavigator.Text = "bindingNavigator1";
             this.taxpeopleBindingNavigator.Visible = false;
             // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
+            // 
             // bindingNavigatorMoveFirstItem
             // 
             this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -557,16 +689,9 @@
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -589,26 +714,8 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // taxpeopleBindingNavigatorSaveItem
             // 
@@ -623,127 +730,25 @@
             // 
             this.taxpeopleBindingSource.DataSource = typeof(MRAtaxpayerWS.Form1.taxperson);
             // 
-            // taxpersonCollectionBindingSource
+            // buttonLoggedUser
             // 
-            this.taxpersonCollectionBindingSource.DataSource = typeof(MRAtaxpayerWS.Form1.taxpersonCollection);
+            this.buttonLoggedUser.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonLoggedUser.Location = new System.Drawing.Point(6, 76);
+            this.buttonLoggedUser.Name = "buttonLoggedUser";
+            this.buttonLoggedUser.Size = new System.Drawing.Size(548, 23);
+            this.buttonLoggedUser.TabIndex = 13;
+            this.buttonLoggedUser.Text = "Logged in user First and Last name";
+            this.buttonLoggedUser.UseVisualStyleBackColor = false;
             // 
-            // taxpeopleBindingSource1
+            // buttonSelect
             // 
-            this.taxpeopleBindingSource1.DataMember = "taxpeople";
-            this.taxpeopleBindingSource1.DataSource = this.taxpersonCollectionBindingSource;
-            // 
-            // taxpeopleDataGridView
-            // 
-            this.taxpeopleDataGridView.AllowUserToAddRows = false;
-            this.taxpeopleDataGridView.AllowUserToDeleteRows = false;
-            this.taxpeopleDataGridView.AutoGenerateColumns = false;
-            this.taxpeopleDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.taxpeopleDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewCheckBoxColumn1,
-            this.dataGridViewTextBoxColumn9});
-            this.taxpeopleDataGridView.DataSource = this.taxpeopleBindingSource1;
-            this.taxpeopleDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.taxpeopleDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.taxpeopleDataGridView.Name = "taxpeopleDataGridView";
-            this.taxpeopleDataGridView.ReadOnly = true;
-            this.taxpeopleDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.taxpeopleDataGridView.Size = new System.Drawing.Size(480, 295);
-            this.taxpeopleDataGridView.TabIndex = 9;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.taxpeopleDataGridView);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 16);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(480, 295);
-            this.panel2.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "TPIN";
-            this.dataGridViewTextBoxColumn1.HeaderText = "TPIN";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "BusinessCertificateNumber";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Business Certificate Number";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "TradingName";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Trading Name";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "BusinessRegistrationDate";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Business Registration Date";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "MobileNumber";
-            this.dataGridViewTextBoxColumn5.HeaderText = "Mobile Number";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "Email";
-            this.dataGridViewTextBoxColumn6.HeaderText = "Email";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.DataPropertyName = "PhysicalLocation";
-            this.dataGridViewTextBoxColumn7.HeaderText = "Physical Location";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.DataPropertyName = "Username";
-            this.dataGridViewTextBoxColumn8.HeaderText = "Username";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Deleted";
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Deleted";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.DataPropertyName = "id";
-            this.dataGridViewTextBoxColumn9.HeaderText = "id";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(188, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(354, 20);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.Visible = false;
+            this.buttonSelect.Location = new System.Drawing.Point(396, 168);
+            this.buttonSelect.Name = "buttonSelect";
+            this.buttonSelect.Size = new System.Drawing.Size(170, 23);
+            this.buttonSelect.TabIndex = 11;
+            this.buttonSelect.Text = "<< (Select Record for editing)";
+            this.buttonSelect.UseVisualStyleBackColor = true;
+            this.buttonSelect.Click += new System.EventHandler(this.buttonSelect_Click);
             // 
             // Form1
             // 
@@ -751,6 +756,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(899, 476);
+            this.Controls.Add(this.buttonSelect);
             this.Controls.Add(this.taxpeopleBindingNavigator);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -761,10 +767,13 @@
             this.ShowIcon = false;
             this.Text = "MRA Taxpayer";
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taxpersonCollectionBindingSource)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -772,10 +781,6 @@
             this.taxpeopleBindingNavigator.ResumeLayout(false);
             this.taxpeopleBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpersonCollectionBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.taxpeopleDataGridView)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -784,7 +789,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonClearPanels;
         private System.Windows.Forms.Button buttonViewAll;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonEdit;
@@ -798,8 +802,6 @@
         private System.Windows.Forms.MaskedTextBox textBoxMRAPassword;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button buttonApply;
-        private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label12;
@@ -850,7 +852,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonClearDataGridPanel;
+        private System.Windows.Forms.Button buttonClearDataInputPanel;
+        private System.Windows.Forms.Button buttonLoggedUser;
+        private System.Windows.Forms.Button buttonSelect;
     }
 }
 
